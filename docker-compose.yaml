@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: ./docker/Dockerfile
+            args:
+                - DOCKER_USER_UID=${DOCKER_USER_UID}
+                - DOCKER_USER_GID=${DOCKER_USER_GID}
+        container_name: symfony-demo-app
+        environment:
+            - PHP_IDE_CONFIG=serverName=SymfonyDemoLocal
+            - XDEBUG_SESSION=1
+        user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
+        volumes:
+            - ./app/:/srv/app:rw
+            - ./docker/php/entrypoint.sh:/usr/local/bin/entrypoint
+            - ./docker/nginx/app.conf:/etc/nginx/conf.d/app.conf
+        networks:
+            symfony_demo_network:
+                ipv4_address: 172.28.0.2
+        working_dir: /srv/app
+        entrypoint: ["/usr/local/bin/entrypoint"]
+
+    postgres:
+        image: postgres:15.2
+        container_name: symfony-demo-postgres
+        environment:
+            POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+            POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        ports:
+            - '5432:5432'
+        networks:
+            symfony_demo_network:
+                ipv4_address: 172.28.0.3
+
+networks:
+    symfony_demo_network:
+        name: symfony_demo_network
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.28.0.0/24
+                  gateway: 172.28.0.1

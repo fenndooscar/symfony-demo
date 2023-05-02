@@ -1,0 +1,19 @@
+includes:
+	- vendor/phpstan/phpstan-symfony/extension.neon
+	- vendor/phpstan/phpstan-doctrine/extension.neon
+	- vendor/phpstan/phpstan-doctrine/rules.neon
+parameters:
+    excludePaths:
+        - '%rootDir%/../../../src/Kernel.php'
+    ignoreErrors:
+        - '#Cannot cast mixed to#'
+        - "#Cannot access offset '.*?' on mixed#"
+        - '# should return array<.*?> but returns array.#'
+        - '#, mixed given.#'
+    symfony:
+        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+#    autoload_directories:
+#        - %rootDir%/../../../src/Migrations
+    universalObjectCratesClasses:
+        - Faker\Generator
+    checkGenericClassInNonGenericObjectType: false

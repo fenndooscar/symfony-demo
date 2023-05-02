@@ -1,0 +1,21 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $environment: '%kernel.environment%'
+            $debug: '%env(bool:APP_DEBUG)%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Logger\JsonFormatter:
+        tags:
+            service: '%env(string:LOG_SERVICE)%'
+            application: '%env(string:LOG_APPLICATION)%'

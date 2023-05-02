@@ -1,0 +1,14 @@
+nelmio_api_doc:
+    use_validation_groups: true
+    documentation:
+        info:
+            title: Symfony Demo API
+            description: This is an symfony demo api application
+            version: 1.0.0
+    areas:
+        default:
+            path_patterns:
+                - ^/api(?!/doc$)
+        v1api:
+            name_patterns:
+                - ^api_v1
