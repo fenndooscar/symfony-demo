@@ -2,17 +2,21 @@
 
 Простое Demo API приложение с использованием фреймворка Symfony.
 
-Запуск:
+Документация к апи находится по [ссылке](http://172.28.0.2/api/doc/v1) после запуска проекта
+
+### Как пользоваться runner.sh
+
+- Запуск:
 ```shell
 sh runner.sh start
 ```
 
-Анализ кода (phpstan):
+- Анализ кода (phpstan):
 ```shell
 sh runner.sh cs:analyse
 ```
 
-Код стайл фиксер (php-cs-fixer):
+- Код стайл фиксер (php-cs-fixer):
 ```shell
 sh runner.sh cs:fix
 ```
