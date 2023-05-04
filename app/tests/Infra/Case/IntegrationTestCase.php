@@ -112,6 +112,23 @@ abstract class IntegrationTestCase extends WebTestCase
         self::assertArrayHasKey('message', $responseData['error']);
     }
 
+    protected function getEntityManager(): EntityManagerInterface
+    {
+        if (!self::$entityManager instanceof EntityManagerInterface) {
+            throw new RuntimeException('$entityManager is null.');
+        }
+
+        return self::$entityManager;
+    }
+
+    protected function clearDB(EntityManagerInterface $entityManager, string $entityClass): void
+    {
+        $entityManager->createQueryBuilder()
+            ->delete($entityClass, 'entity')
+            ->getQuery()
+            ->execute();
+    }
+
     private function buildClient(): void
     {
         self::ensureKernelShutdown();

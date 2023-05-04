@@ -13,7 +13,7 @@ readonly class AuthorCreator
     {
         $author = new Author();
         $author->setFirstname($dto->firstname);
-        $author->setFirstname($dto->lastname);
+        $author->setLastname($dto->lastname);
 
         return $author;
     }

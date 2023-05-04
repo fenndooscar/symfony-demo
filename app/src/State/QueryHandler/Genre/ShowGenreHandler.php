@@ -4,19 +4,19 @@ declare(strict_types = 1);
 
 namespace App\State\QueryHandler\Genre;
 
-use App\Mapper\GenreMapper;
 use App\Repository\GenreRepositoryInterface;
 use App\State\Query\Genre\ShowGenreQuery;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsMessageHandler]
 readonly class ShowGenreHandler
 {
     public function __construct(
         private GenreRepositoryInterface $genreRepository,
-        private GenreMapper $mapper
+        private NormalizerInterface $normalizer
     ) {
     }
 
@@ -28,6 +28,6 @@ readonly class ShowGenreHandler
      */
     public function __invoke(ShowGenreQuery $query): array
     {
-        return $this->mapper->one($this->genreRepository->findOneById($query->id));
+        return $this->normalizer->normalize($this->genreRepository->findOneById($query->id));
     }
 }

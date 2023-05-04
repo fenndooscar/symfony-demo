@@ -35,7 +35,7 @@ readonly class ExceptionSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        if ('dev' === $this->environment && true === $this->debug) {
+        if ('dev' === $this->environment || true === $this->debug) {
             return;
         }
 

@@ -5,18 +5,18 @@ declare(strict_types = 1);
 namespace App\State\QueryHandler\Genre;
 
 use App\Entity\Genre;
-use App\Mapper\GenreMapper;
 use App\Repository\GenreRepositoryInterface;
 use App\State\Query\Genre\ListGenresQuery;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[AsMessageHandler]
 readonly class ListGenresHandler
 {
     public function __construct(
         private GenreRepositoryInterface $genreRepository,
-        private GenreMapper $mapper
+        private NormalizerInterface $normalizer
     ) {
     }
 
@@ -32,7 +32,7 @@ readonly class ListGenresHandler
         $genres = $this->genreRepository->findBy($criteria, null, $query->limit, $query->offset);
 
         return [
-            'genres' => $this->mapper->many($genres),
+            'genres' => $this->normalizer->normalize($genres),
             'total'  => $this->genreRepository->findBy($criteria),
         ];
     }
