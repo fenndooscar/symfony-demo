@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 
+# shellcheck disable=SC2124
+# shellcheck disable=SC2068
+
 set -eu
 
 prepare_env() {
@@ -36,15 +39,15 @@ down_services() {
 }
 
 run_php() {
-    docker-compose exec app "$@"
+    docker-compose exec app $@
 }
 
 run_composer() {
-    run_php composer "$@"
+    run_php composer $@
 }
 
 run_symfony() {
-    run_php bin/console "$@"
+    run_php bin/console $@
 }
 
 run_phpstan() {
@@ -56,7 +59,7 @@ run_cs_fix() {
 }
 
 run_phpunit() {
-    run_php bin/phpunit "$@"
+    run_php bin/phpunit $@
 }
 
 postgres_shell() {
@@ -70,8 +73,7 @@ reset_db() {
     run_symfony doctrine:fixtures:load
 }
 
-# shellcheck disable=SC2124
-command_full="$@"
+command_full=$@
 command_name="$1"
 command_args=$(echo "${command_full#"$command_name"}" | sed 's/^[[:space:]]*//g')
 
